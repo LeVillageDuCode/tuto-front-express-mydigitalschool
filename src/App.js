@@ -7,6 +7,7 @@ function App() {
   const [inputTag, setInputTag] = useState("")
 
   useEffect(() => {
+    console.log(process.env.REACT_APP_API_URL)
     getTags()
   }, [])
 
