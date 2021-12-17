@@ -1,23 +1,61 @@
-import logo from './logo.svg';
 import './App.css';
+import axios from 'axios';
+import {useEffect, useState} from 'react';
 
 function App() {
+  const [tags, setTags] = useState([])
+  const [inputTag, setInputTag] = useState("")
+
+  useEffect(() => {
+    getTags()
+  }, [])
+
+  function getTags() {
+    axios.get('http://localhost:5000/tags')
+    .then(res => {
+      setTags(res.data)
+    })
+  }
+
+  function deleteTag(id) {
+    console.log(`Tag ${id} supprimé!`);
+
+    axios.delete('http://localhost:5000/tags/'+id)
+    .then(res => {
+      console.log(res)
+      getTags();
+    });
+  }
+
+  function addTag(event) {
+    event.preventDefault();
+    console.log("Formulaire soumis");
+
+    let newTag = {name: inputTag};
+    console.log(newTag);
+  }
+
+  function handleInputTag(event) {
+    setInputTag(event.target.value)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Mes tags</h1>
+
+      <form onSubmit={addTag}>
+        <input type="text" value={inputTag} onChange={handleInputTag} />
+        <button type="submit">OK</button>
+      </form>
+
+      <ul>
+        {tags.map(tag => (
+          <li key={tag.id}>
+            {tag.name}
+            <button onClick={() => deleteTag(tag.id)}>Supprimer</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
