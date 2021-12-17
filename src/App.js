@@ -12,7 +12,7 @@ function App() {
   }, [])
 
   function getTags() {
-    axios.get(process.env.API_URL + "/tags")
+    axios.get(process.env.API_URL + "tags")
     .then(res => {
       setTags(res.data)
     })
@@ -21,7 +21,7 @@ function App() {
   function deleteTag(id) {
     console.log(`Tag ${id} supprimé!`);
 
-    axios.delete(process.env.API_URL+ "/tags" + id)
+    axios.delete(process.env.API_URL+ "tags" + id)
     .then(res => {
       console.log(res)
       getTags();
@@ -33,7 +33,7 @@ function App() {
     console.log("Formulaire soumis");
 
     let newTag = {name: inputTag};
-    axios.post(process.env.API_URL + "/tags", newTag)
+    axios.post(process.env.API_URL + "tags", newTag)
     .then(res => {
       console.log(res);
       getTags();
