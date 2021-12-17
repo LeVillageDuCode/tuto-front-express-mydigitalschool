@@ -32,7 +32,11 @@ function App() {
     console.log("Formulaire soumis");
 
     let newTag = {name: inputTag};
-    console.log(newTag);
+    axios.post('http://localhost:5000/tags', newTag)
+    .then(res => {
+      console.log(res);
+      getTags();
+    })
   }
 
   function handleInputTag(event) {
@@ -41,7 +45,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Mes tags</h1>
+      <h1>Mes tags de la mort!</h1>
 
       <form onSubmit={addTag}>
         <input type="text" value={inputTag} onChange={handleInputTag} />
