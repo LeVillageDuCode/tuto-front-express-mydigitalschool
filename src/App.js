@@ -5,14 +5,15 @@ import {useEffect, useState} from 'react';
 function App() {
   const [tags, setTags] = useState([])
   const [inputTag, setInputTag] = useState("")
+  const [apiURL, setApiURL] = useState("")
 
   useEffect(() => {
-    console.log(process.env.REACT_APP_API_URL)
+    setApiURL(process.env.REACT_APP_API_URL)
     getTags()
   }, [])
 
   function getTags() {
-    axios.get(process.env.REACT_APP_API_URL + "tags")
+    axios.get(apiURL + "tags")
     .then(res => {
       setTags(res.data)
     })
@@ -21,7 +22,7 @@ function App() {
   function deleteTag(id) {
     console.log(`Tag ${id} supprimé!`);
 
-    axios.delete(process.env.REACT_APP_API_URL+ "tags/" + id)
+    axios.delete(apiURL+ "tags/" + id)
     .then(res => {
       console.log(res)
       getTags();
@@ -33,7 +34,7 @@ function App() {
     console.log("Formulaire soumis");
 
     let newTag = {name: inputTag};
-    axios.post(process.env.REACT_APP_API_URL + "tags", newTag)
+    axios.post(apiURL + "tags", newTag)
     .then(res => {
       console.log(res);
       getTags();
